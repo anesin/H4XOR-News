@@ -22,7 +22,7 @@ struct ContentView: View {
 }
 
 
-struct Post: Identifiable {
+struct SimplePost: Identifiable {
     
     let id: Int  // Hasable
     let title: String
@@ -31,9 +31,9 @@ struct Post: Identifiable {
 
 
 let posts = [
-    Post(id: 1, title: "Hello"),
-    Post(id: 2, title: "Bonjour"),
-    Post(id: 3, title: "Hola")
+    SimplePost(id: 1, title: "Hello"),
+    SimplePost(id: 2, title: "Bonjour"),
+    SimplePost(id: 3, title: "Hola")
 ]
 
 
