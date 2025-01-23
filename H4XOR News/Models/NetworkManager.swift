@@ -8,7 +8,10 @@
 import Foundation
 
 
-class NetworkManager {
+class NetworkManager: ObservableObject {
+    
+    @Published var posts: [Post] = []
+
     
     func fetchData() {
         requestURL(with: "http://hn.algolia.com/api/v1/search?tags=front_page")
@@ -23,6 +26,7 @@ class NetworkManager {
         let session = URLSession(configuration: .default)
         let task = session.dataTask(with: url) { (data, response, error) in
             if let e = error {
+                print(e)
                 return
             }
             guard let d = data else {
@@ -30,6 +34,9 @@ class NetworkManager {
             }
             guard let result = self.parseJson(d) else {
                 return
+            }
+            DispatchQueue.main.async {
+                self.posts = result
             }
         }
         task.resume()
@@ -39,7 +46,7 @@ class NetworkManager {
     func parseJson(_ data: Data) -> [Post]? {
         do {
             let results = try JSONDecoder().decode(Results.self, from: data)
-            return []
+            return results.hits
         }
         catch {
             return nil
